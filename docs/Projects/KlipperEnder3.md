@@ -389,18 +389,18 @@ As shown above, your *printer.cfg* file can be accessed in FluiddPi's configurat
   variable_extrude: 1.0
   gcode:
     ##### read E from pause macro #####
-    {% set E = printer["gcode_macro PAUSE"].extrude|float %}
+    {% assign E = printer["gcode_macro PAUSE"].extrude|float %}
     ##### set park positon for x and y #####
     # default is your max posion from your printer.cfg
-    {% set x_park = printer.toolhead.axis_maximum.x|float - 5.0 %}
-    {% set y_park = printer.toolhead.axis_maximum.y|float - 5.0 %}
+    {% assign x_park = printer.toolhead.axis_maximum.x|float - 5.0 %}
+    {% assign y_park = printer.toolhead.axis_maximum.y|float - 5.0 %}
     ##### calculate save lift position #####
-    {% set max_z = printer.toolhead.axis_maximum.z|float %}
-    {% set act_z = printer.toolhead.position.z|float %}
+    {% assign max_z = printer.toolhead.axis_maximum.z|float %}
+    {% assign act_z = printer.toolhead.position.z|float %}
     {% if act_z < (max_z - 2.0) %}
-        {% set z_safe = 2.0 %}
+        {% assign z_safe = 2.0 %}
     {% else %}
-        {% set z_safe = max_z - act_z %}
+        {% assign z_safe = max_z - act_z %}
     {% endif %}
     ##### end of definitions #####
     PAUSE_BASE
@@ -423,12 +423,12 @@ As shown above, your *printer.cfg* file can be accessed in FluiddPi's configurat
   rename_existing: RESUME_BASE
   gcode:
     ##### read E from pause macro #####
-    {% set E = printer["gcode_macro PAUSE"].extrude|float %}
+    {% assign E = printer["gcode_macro PAUSE"].extrude|float %}
     #### get VELOCITY parameter if specified ####
     {% if 'VELOCITY' in params|upper %}
-      {% set get_params = ('VELOCITY=' + params.VELOCITY)  %}
+      {% assign get_params = ('VELOCITY=' + params.VELOCITY)  %}
     {%else %}
-      {% set get_params = "" %}
+      {% assign get_params = "" %}
     {% endif %}
     ##### end of definitions #####
     {% if printer.extruder.can_extrude|lower == 'true' %}
@@ -448,8 +448,8 @@ As shown above, your *printer.cfg* file can be accessed in FluiddPi's configurat
 
   [gcode_macro START_PRINT]
   gcode:
-      {% set BED_TEMP = params.BED_TEMP|default(60)|float %}
-      {% set EXTRUDER_TEMP = params.EXTRUDER_TEMP|default(190)|float %}
+      {% assign BED_TEMP = params.BED_TEMP|default(60)|float %}
+      {% assign EXTRUDER_TEMP = params.EXTRUDER_TEMP|default(190)|float %}
       # Start bed heating
       M140 S{BED_TEMP}
       # Use absolute coordinates
@@ -493,9 +493,9 @@ As shown above, your *printer.cfg* file can be accessed in FluiddPi's configurat
 
   [gcode_macro M600]
   gcode:
-      {% set X = params.X|default(50)|float %}
-      {% set Y = params.Y|default(0)|float %}
-      {% set Z = params.Z|default(10)|float %}
+      {% assign X = params.X|default(50)|float %}
+      {% assign Y = params.Y|default(0)|float %}
+      {% assign Z = params.Z|default(10)|float %}
       SAVE_GCODE_STATE NAME=M600_state
       PAUSE
       G91
@@ -533,82 +533,4 @@ As shown above, your *printer.cfg* file can be accessed in FluiddPi's configurat
   #*# pid_ki = 1.462
   #*# pid_kd = 696.505
   #*#
-  #*# [extruder]
-  #*# control = pid
-  #*# pid_kp = 25.693
-  #*# pid_ki = 1.338
-  #*# pid_kd = 123.326
-  #*#
-  #*# [bltouch]
-  #*# z_offset = 2.900
-  ```
-
-</div>
-
-## Slicer Configuration
-
-Check out my Klipper Enabled Ender 3 machine profile page, linked below, for information regarding the slicer setup & config, as well as my profile download.
-
-<center>
-
-[Klipper Enabled Ender 3 Profile](https://github.com/Twarner491/project-files/blob/main/PrusaSlicer%20Profiles/Klipper-Ender3-PrusaSlicer-Config.ini){ .md-button .md-button--primary }
-
-</center>
-
-[^1]: http://fabacademy.org/2021/labs/charlotte/students/theodore-warner/Assignments/week02/
-[^2]: https://teddywarner.org/Projects/Octoprint/
-
-*[FDM]: Fused Deposition Modeling
-*[CNC]: Computerized Numerical Control
-*[MPCNC]: Mostly Printed Computerized Numerical Control - https://docs.v1engineering.com/mpcnc/intro/
-*[SSH]: Secure Shell
-*[GPIO]: General-Purpose Input/Output
-*[USB]: Universal Serial Bus
-*[ETA]: Estimated Time of Arrival
-*[ISO]: International Organization for Standardization
-*[UPDI]: Unified Program and Debug Interface
-*[AVR]: A Family of microcontrollers developed since 1996 by Atmel
-*[JTAG]: Joint Test Action Group
-*[IDE]: Integrated Development Environment
-*[Rx]: Receiving Signal
-*[Tx]: Transmitting Signal
-*[VCC]: Voltage Common Collector (+)
-*[GND]: Ground / Common Drain (-)
-*[IC]: Integrated Circuit
-*[LED]: Light-Emitting Diode
-*[Cap]: Capacitor
-*[SPST]: Single Pole Single Throw Switch
-*[SPDT]: Single Pole Double Throw Switch
-*[DPST]: Double Pole Single Throw Switch
-*[DPDT]: Double Pole Double Throw Switch
-*[EEPROM]: Electrically Erasable Programmable Read-Only Memory
-*[PCB]: Printed Circuit Board
-*[PWM]: Pulse Width Modulation
-*[SPI]: Serial Peripheral Interface
-*[I2C]: Inter-Integrated Circuit
-*[UART]: Universal Asynchronous Receiver/Transmitter
-*[ADC]: Analog-to-Digital Converter
-*[DAC]: Digital-to-Analog Converter
-*[MCU]: Microcontroller Unit
-*[FPGA]: Field-Programmable Gate Array
-*[SLA]: Stereolithography
-*[DLP]: Digital Light Processing 
-*[SLS]: Selective Laser Sintering
-*[PLA]: Polylactic Acid 
-*[ABS]: Acrylonitrile Butadiene Styrene 
-*[PETG]: Polyethylene Terephthalate Glycol 
-*[CAD]: Computer-Aided Design
-*[CAM]: Computer-Aided Manufacturing
-*[G-code]: A language for controlling CNC machines
-*[PID]: Proportional-Integral-Derivative (control loop feedback mechanism)
-*[MOSFET]: Metal-Oxide-Semiconductor Field-Effect Transistor
-*[BJT]: Bipolar Junction Transistor
-*[SMD]: Surface-Mount Device
-*[THT]: Through-Hole Technology
-*[DIP]: Dual In-line Package
-*[ESC]: Electronic Speed Controller
-*[BEC]: Battery Eliminator Circuit
-*[LiPo]: Lithium Polymer 
-*[NiMH]: Nickel-Metal Hydride 
-*[EMI]: Electromagnetic Interference
-*[ESD]: Electrostatic Discharge
+  #*# [extruder
