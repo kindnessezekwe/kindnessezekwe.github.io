@@ -211,6 +211,7 @@ As shown above, your *printer.cfg* file can be accessed in FluiddPi's configurat
 
 <div style="height:660px; overflow:scroll;">
 
+{% raw %}
   ```yaml linenums="1" title="printer.cfg"
   # See docs/Config_Reference.md for a description of parameters.
 
@@ -533,4 +534,15 @@ As shown above, your *printer.cfg* file can be accessed in FluiddPi's configurat
   #*# pid_ki = 1.462
   #*# pid_kd = 696.505
   #*#
-  #*# [extruder
+  #*# [extruder]
+  #*# control = pid
+  #*# pid_kp = 25.693
+  #*# pid_ki = 1.338
+  #*# pid_kd = 123.326
+  #*#
+  #*# [bltouch]
+  #*# z_offset = 2.900
+  ```
+{% endraw %}
+
+</div>
